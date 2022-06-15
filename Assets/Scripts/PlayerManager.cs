@@ -20,6 +20,7 @@ public class PlayerManager : MonoBehaviour
         var firstNonActivePlayer = _players
         .OrderBy(t => t.PlayerNumber)
         .FirstOrDefault(t => !t.HasController);
+        
         firstNonActivePlayer.InitialisePlayer(controller);
     }
 }

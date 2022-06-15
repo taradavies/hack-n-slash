@@ -9,9 +9,13 @@ public class UICharacterSelectionMarker : MonoBehaviour
     [SerializeField] Image _markerImage;
     [SerializeField] Image _lockImage;
 
-    [Tooltip("Offset that centers the marker on the character")]
+    [Tooltip("Offset that centers the marker on the character on the X axis")]
     [SerializeField] int _markerXOffset;
+    [Tooltip("Offset so that markers don't overlap on the Y axis")]
     [SerializeField] int _markerYOffset;
+
+    public bool IsLockedIn { get; private set; }
+    public bool HasPlayerJoined =>_player.HasController;
 
     // private variables
 
@@ -28,37 +32,21 @@ public class UICharacterSelectionMarker : MonoBehaviour
 
     void Update()
     {
-        if (!_player.HasController) {return;}
+        if (!HasPlayerJoined) { return; }
 
         if (!_initialising)
         {
             StartCoroutine(Initialise());
         }
 
-        if (!_finishedInitialising) {return;}
+        if (!_finishedInitialising) { return; }
 
-        if (_player.PlayerController._horizontalInput > 0)
-        {
-            MoveToCharacterPanel(_characterSelectionMenu.WizardPanel);
+        if (IsLockedIn) { return; }
 
-            if (_markerXOffset > 0)
-                _markerXOffset *= -1;
-        }
-
-        else if (_player.PlayerController._horizontalInput < 0)
-        {
-            MoveToCharacterPanel(_characterSelectionMenu.VikingPanel);
-
-            if (_markerXOffset < 0)
-                _markerXOffset *= -1;
-        }
+        CheckMovingToWizardPanel();
+        CheckMovingToVikingPanel();
+        CheckCharacterSelected();
     }
-
-    void MoveToCharacterPanel(UICharacterSelectionPanel panel)
-    {
-        transform.position = panel.transform.position + new Vector3(_markerXOffset, _markerYOffset);
-    }
-
     IEnumerator Initialise()
     {
         _initialising = true;
@@ -66,5 +54,44 @@ public class UICharacterSelectionMarker : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         _markerImage.gameObject.SetActive(true);
         _finishedInitialising = true;
+    }
+    void CheckMovingToWizardPanel()
+    {
+        if (_player.PlayerController.horizontalInput > 0)
+        {
+            MoveToCharacterPanel(_characterSelectionMenu.WizardPanel);
+
+            if (_markerXOffset > 0)
+                _markerXOffset *= -1;
+        }
+    }
+    void CheckMovingToVikingPanel()
+    {
+        if (_player.PlayerController.horizontalInput < 0)
+        {
+            MoveToCharacterPanel(_characterSelectionMenu.VikingPanel);
+
+            if (_markerXOffset < 0)
+                _markerXOffset *= -1;
+        }
+    }
+    void CheckCharacterSelected()
+    {
+        if (_player.PlayerController.attackPressed)
+        {
+            LockCharacter();
+        }
+    }
+
+    void LockCharacter()
+    {
+        _lockImage.gameObject.SetActive(true);
+        IsLockedIn = true;
+        _markerImage.gameObject.SetActive(false);
+    }
+
+    void MoveToCharacterPanel(UICharacterSelectionPanel panel)
+    {
+        transform.position = panel.transform.position + new Vector3(_markerXOffset, _markerYOffset);
     }
 }

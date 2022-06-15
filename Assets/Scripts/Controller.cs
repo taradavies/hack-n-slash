@@ -5,22 +5,22 @@ public class Controller : MonoBehaviour
     public int ControllerNumber { get; private set; }
     public bool IsAssigned { get; set; }
 
-    public bool _attack;
-    public float _horizontalInput;
-    public float _verticalInput;
+    public bool attack;
+    public bool attackPressed;
+    public float horizontalInput;
+    public float verticalInput;
 
     string _attackButton;
-    bool _attackPressed;
     string _horizontalAxis;
     string _verticalAxis;
 
     void Update() 
     {
         if (!string.IsNullOrEmpty(_attackButton))
-            _attack = Input.GetButton(_attackButton);
-            _attackPressed = Input.GetButtonDown(_attackButton);
-            _horizontalInput = Input.GetAxis(_horizontalAxis);
-            _verticalInput = Input.GetAxis(_verticalAxis);
+            attack = Input.GetButton(_attackButton);
+            attackPressed = Input.GetButtonDown(_attackButton);
+            horizontalInput = Input.GetAxis(_horizontalAxis);
+            verticalInput = Input.GetAxis(_verticalAxis);
     }
 
     public void SetControllerNumber(int controllerNumber)
@@ -32,6 +32,6 @@ public class Controller : MonoBehaviour
     }
     public bool AttackButtonDown()
     {
-        return _attack;
+        return attack;
     }
 }
