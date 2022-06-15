@@ -27,7 +27,8 @@ public class Player : MonoBehaviour
 
     public void SpawnCharacter()
     {
-        var character = Instantiate(CharacterPrefab, Vector3.zero, Quaternion.identity);
+        // changed vector3 with a spawn point
+        var character = Instantiate(CharacterPrefab, new Vector3(2, 0, 7), Quaternion.identity);
         character.SetController(_playerController);
     }
 }
