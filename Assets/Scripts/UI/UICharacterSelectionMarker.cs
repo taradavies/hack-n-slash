@@ -85,15 +85,16 @@ public class UICharacterSelectionMarker : MonoBehaviour
     {
         if (_player.PlayerController.attackPressed)
         {
-            LockCharacter();
+            StartCoroutine(LockCharacter());
         }
     }
 
-    void LockCharacter()
+    IEnumerator LockCharacter()
     {
         _lockImage.gameObject.SetActive(true);
-        IsLockedIn = true;
         _markerImage.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        IsLockedIn = true;
     }
 
     void MoveToCharacterPanel(UICharacterSelectionPanel panel)
