@@ -41,11 +41,17 @@ public class UICharacterSelectionMarker : MonoBehaviour
 
         if (!_finishedInitialising) { return; }
 
-        if (IsLockedIn) { return; }
-
-        CheckMovingToWizardPanel();
-        CheckMovingToVikingPanel();
-        CheckCharacterSelected();
+        if (!IsLockedIn)
+        {
+            CheckMovingToWizardPanel();
+            CheckMovingToVikingPanel();
+            CheckCharacterSelected();
+        }
+        else
+        {
+            if (_player.PlayerController.attackPressed)
+                _characterSelectionMenu.TryStartGame();
+        }
     }
     IEnumerator Initialise()
     {
