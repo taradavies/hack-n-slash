@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static PlayerManager Instance { get; private set; }
     List<Player> _players;
 
     void Awake() 
     {
+        Instance = this;
         _players = FindObjectsOfType<Player>().ToList();
     }
 
@@ -22,5 +24,14 @@ public class PlayerManager : MonoBehaviour
         .FirstOrDefault(t => !t.HasController);
         
         firstNonActivePlayer.InitialisePlayer(controller);
+    }
+
+    public void SpawnPlayerCharacters()
+    {
+        foreach (var player in _players)
+        {
+            if (player.HasController && player.CharacterPrefab != null)
+                player.SpawnCharacter();
+        }
     }
 }

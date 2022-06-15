@@ -100,5 +100,6 @@ public class UICharacterSelectionMarker : MonoBehaviour
     void MoveToCharacterPanel(UICharacterSelectionPanel panel)
     {
         transform.position = panel.transform.position + new Vector3(_markerXOffset, _markerYOffset);
+        _player.CharacterPrefab = panel.CharacterPrefab;
     }
 }
