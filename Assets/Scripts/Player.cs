@@ -1,19 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class Player : MonoBehaviour
 {
-    [SerializeField] int playerNumber;
-    Controller playerController;
+    [SerializeField] int _playerNumber;
+    public bool HasController => _playerController != null;
+    public int PlayerNumber => _playerNumber;
+    Controller _playerController;
+    UIPlayerText _playerText;
 
-    public bool HasController => playerController != null;
-    public int PlayerNumber => playerNumber;
+    void Awake()
+    {
+        _playerText = GetComponentInChildren<UIPlayerText>();
+    }
 
     public void InitialisePlayer(Controller playerController)
     {
-        this.playerController = playerController;
-        gameObject.name = string.Format("Player {0} - {1}", playerNumber, playerController.gameObject.name);
-        Debug.Log(gameObject.name);
+        _playerController = playerController;
+        gameObject.name = string.Format("Player {0} - {1}", _playerNumber, _playerController.gameObject.name);
+
+        _playerText.HandlePlayerInitialised();
     }
 }
