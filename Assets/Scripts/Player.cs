@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
     public Controller PlayerController { get; private set; }
 
     public Character CharacterPrefab { get; set; }
-    
-    Controller _playerController;
     UIPlayerText _playerText;
 
     void Awake()
@@ -29,6 +27,6 @@ public class Player : MonoBehaviour
     {
         // changed vector3 with a spawn point
         var character = Instantiate(CharacterPrefab, new Vector3(2, 0, 7), Quaternion.identity);
-        character.SetController(_playerController);
+        character.SetController(PlayerController);
     }
 }
