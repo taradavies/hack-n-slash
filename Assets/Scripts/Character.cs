@@ -1,13 +1,14 @@
+using System;
 using UnityEngine;
 
 public class Character : MonoBehaviour
 {
     [SerializeField] float _moveSpeed;
     [SerializeField] Vector3 _spawnPoint;
-
     public Vector3 SpawnPoint => _spawnPoint;
 
     Controller _characterController;
+    Animator _animationController;
     Rigidbody _rb;
 
     public void SetController(Controller playerController)
@@ -18,6 +19,7 @@ public class Character : MonoBehaviour
     void Awake() 
     {
         _rb = GetComponent<Rigidbody>();
+        _animationController = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -26,8 +28,12 @@ public class Character : MonoBehaviour
         if (moveDirection.magnitude >= 0.1)
         {
             transform.position += (moveDirection * _moveSpeed * Time.deltaTime);
-            // sets the rotation of the character
             transform.forward = moveDirection * 360f;
+            AnimatePlayer(moveDirection);
         }
+    }
+    void AnimatePlayer(Vector3 moveDirection)
+    {
+        _animationController.SetFloat("Speed", Math.Abs(moveDirection.z));
     }
 }
