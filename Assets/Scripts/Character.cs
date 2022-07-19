@@ -28,12 +28,13 @@ public class Character : MonoBehaviour
         if (moveDirection.magnitude >= 0.1)
         {
             transform.position += (moveDirection * _moveSpeed * Time.deltaTime);
-            transform.forward = moveDirection * 360f;
+            // transform.forward = moveDirection * 360f;
             AnimatePlayer(moveDirection);
         }
     }
     void AnimatePlayer(Vector3 moveDirection)
     {
-        _animationController.SetFloat("Speed", Math.Abs(moveDirection.z));
+        _animationController.SetFloat("MoveX", moveDirection.x);
+        _animationController.SetFloat("MoveY", moveDirection.z);
     }
 }
