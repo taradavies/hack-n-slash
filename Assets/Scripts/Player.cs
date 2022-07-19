@@ -2,6 +2,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] int _playerNumber;
+    
 
     public bool HasController => PlayerController != null;
     public int PlayerNumber => _playerNumber;
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
     public void SpawnCharacter()
     {
         // changed vector3 with a spawn point
-        var character = Instantiate(CharacterPrefab, new Vector3(2, 0, 7), Quaternion.identity);
+        var character = Instantiate(CharacterPrefab, CharacterPrefab.SpawnPoint, Quaternion.identity);
         character.SetController(PlayerController);
     }
 }

@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23668dae3df897c4c9f1c60fe23b50ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterPrefab: {fileID: 8435784726403215031, guid: 890bf58e0f616c14eab88882d8a43d70, type: 3}
+  _characterPrefab: {fileID: 2942680208922878874, guid: d5c705e7290fceb4f9b8d07d78146e6e, type: 3}
 --- !u!114 &132716576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,7 +953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
@@ -1028,7 +1028,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &736857855
 GameObject:
@@ -1422,7 +1422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23668dae3df897c4c9f1c60fe23b50ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterPrefab: {fileID: 7847776452019833642, guid: b722e5b5eb906f24892ee2aacff5c854, type: 3}
+  _characterPrefab: {fileID: 4558528158495893522, guid: 00b5e5dfcdc9db646aef909c6102c3ba, type: 3}
 --- !u!114 &1098596086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1883,7 +1883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1369011301685259687, guid: 0199cbe56250de9439caaae0f6f80f83, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1369011301685259687, guid: 0199cbe56250de9439caaae0f6f80f83, type: 3}
       propertyPath: m_LocalPosition.x

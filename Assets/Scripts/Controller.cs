@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
@@ -21,6 +22,11 @@ public class Controller : MonoBehaviour
             attackPressed = Input.GetButtonDown(_attackButton);
             horizontalInput = Input.GetAxis(_horizontalAxis);
             verticalInput = Input.GetAxis(_verticalAxis);
+    }
+
+    public Vector3 GetDirection()
+    {
+        return new Vector3(horizontalInput, 0, verticalInput);
     }
 
     public void SetControllerNumber(int controllerNumber)
