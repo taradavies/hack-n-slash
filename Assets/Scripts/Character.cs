@@ -28,11 +28,15 @@ public class Character : MonoBehaviour
         if (moveDirection.magnitude >= 0.1)
         {
             transform.position += (moveDirection * _moveSpeed * Time.deltaTime);
-            // transform.forward = moveDirection * 360f;
-            AnimatePlayer(moveDirection);
+            transform.forward = moveDirection * 360f;
+            AnimatePlayerMovement(moveDirection);
+            if (_characterController.attackPressed)
+            {
+                _animationController.SetTrigger("Attack");
+            }
         }
     }
-    void AnimatePlayer(Vector3 moveDirection)
+    void AnimatePlayerMovement(Vector3 moveDirection)
     {
         _animationController.SetFloat("MoveX", moveDirection.x);
         _animationController.SetFloat("MoveY", moveDirection.z);
