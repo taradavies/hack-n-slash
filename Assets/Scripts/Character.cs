@@ -25,17 +25,16 @@ public class Character : MonoBehaviour
     void Update()
     {
         Vector3 moveDirection = _characterController.GetDirection();
-        if (moveDirection.magnitude >= 0.1)
+        transform.position += (moveDirection * _moveSpeed * Time.deltaTime);
+        transform.forward = moveDirection * 360f;
+        AnimatePlayerMovement(moveDirection);
+        
+        if (_characterController.attackPressed)
         {
-            transform.position += (moveDirection * _moveSpeed * Time.deltaTime);
-            transform.forward = moveDirection * 360f;
-            AnimatePlayerMovement(moveDirection);
-            if (_characterController.attackPressed)
-            {
-                _animationController.SetTrigger("Attack");
-            }
+            _animationController.SetTrigger("Attack");
         }
     }
+
     void AnimatePlayerMovement(Vector3 moveDirection)
     {
         _animationController.SetFloat("MoveX", moveDirection.x);
