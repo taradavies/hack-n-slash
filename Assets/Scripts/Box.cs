@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Box : MonoBehaviour
+public class Box : MonoBehaviour, ITakeHit
 {
     [SerializeField] float _forceAmount = 10f;
      Rigidbody _rb;

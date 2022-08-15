@@ -26,7 +26,7 @@ public class Character : MonoBehaviour
     {
         var animationImpactWatcher = GetComponentInChildren<AnimationImpactWatcher>();
         animationImpactWatcher.OnImpact += AnimatorImpactWatcher_OnImpact;
-        
+
         _rb = GetComponent<Rigidbody>();
         _animationController = GetComponentInChildren<Animator>();
         _attackResults = new Collider[10];
@@ -53,6 +53,7 @@ public class Character : MonoBehaviour
         _animationController.SetFloat("MoveY", moveDirection.z);
     }
     
+    // called by the animatorimpactwatcher event which is activated by the script animationimpactwatcher
     void AnimatorImpactWatcher_OnImpact()
     {
         Vector3 position = transform.position + transform.forward * _attackOffset;
@@ -61,10 +62,10 @@ public class Character : MonoBehaviour
 
         for (int i = 0; i < hitCount; i++)
         {
-            var box = _attackResults[i].GetComponent<Box>();
-            if (box != null)
+            var takesHit = _attackResults[i].GetComponent<ITakeHit>();
+            if (takesHit != null)
             {
-                box.TakeHit(this);
+                takesHit.TakeHit(this);
             }
         }
     }
