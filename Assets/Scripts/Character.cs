@@ -25,8 +25,10 @@ public class Character : MonoBehaviour
     void Awake() 
     {
         var animationImpactWatcher = GetComponentInChildren<AnimationImpactWatcher>();
-        animationImpactWatcher.OnImpact += AnimatorImpactWatcher_OnImpact;
-
+        if (animationImpactWatcher != null) 
+        {
+            animationImpactWatcher.OnImpact += AnimatorImpactWatcher_OnImpact;
+        }
         _rb = GetComponent<Rigidbody>();
         _animationController = GetComponentInChildren<Animator>();
         _attackResults = new Collider[10];
