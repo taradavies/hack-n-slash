@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,13 +18,21 @@ public class Enemy : MonoBehaviour, ITakeHit
     {
         if (_followTarget == null)
         {
-            _followTarget = FindObjectOfType<Character>();
+            _followTarget = GetClosestCharacter();
         }
         else
         {
             _navMeshAgent.SetDestination(_followTarget.transform.position);
         }
     }
+
+    Character GetClosestCharacter()
+    {
+        return Character.AllCharactersInScene
+            .OrderBy(t => Vector3.Distance(transform.position, t.transform.position))
+            .FirstOrDefault();
+    }
+
     void Awake()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
@@ -46,7 +55,6 @@ public class Enemy : MonoBehaviour, ITakeHit
             Die();
         }
     }
-
     private void Die()
     {
         _animator.SetTrigger("Die");

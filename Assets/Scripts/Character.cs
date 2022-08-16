@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Character : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class Character : MonoBehaviour
     [SerializeField] float _attackOffset = 1f;
     [SerializeField] float _attackRadius = 1f;
 
-
     public Vector3 SpawnPoint => _spawnPoint;
+    public static List<Character> AllCharactersInScene = new List<Character>();
 
     Controller _characterController;
     Animator _animationController;
@@ -71,4 +72,21 @@ public class Character : MonoBehaviour
             }
         }
     }
+
+    void OnEnable()
+    {
+        if (!AllCharactersInScene.Contains(this))
+        {
+            AllCharactersInScene.Add(this);
+        }
+    }
+
+    void OnDisable()
+    {
+        if (AllCharactersInScene.Contains(this))
+        {
+            AllCharactersInScene.Remove(this);
+        }
+    }
+    
 }
