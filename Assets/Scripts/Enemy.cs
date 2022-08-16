@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour, ITakeHit
 {
     [SerializeField] GameObject _hitParticles;
     [SerializeField] int _maxHealth = 3;
+
+    bool IsDead => _currentHealth <= 0;
    
     NavMeshAgent _navMeshAgent;
     Character _followTarget;
@@ -16,13 +18,26 @@ public class Enemy : MonoBehaviour, ITakeHit
 
     void Update()
     {
+        if (IsDead) {return;}
+
         if (_followTarget == null)
         {
             _followTarget = GetClosestCharacter();
+            _animator.SetFloat("Speed", 0f);
+            _navMeshAgent.isStopped = true;
         }
         else
         {
-            _navMeshAgent.SetDestination(_followTarget.transform.position);
+            if (Vector3.Distance(transform.position, _followTarget.transform.position) > 2) 
+            {
+                _navMeshAgent.isStopped = false;
+                _animator.SetFloat("Speed", 1f);
+                _navMeshAgent.SetDestination(_followTarget.transform.position);
+            }
+            else
+            {
+                // Attack()
+            }
         }
     }
 
@@ -58,6 +73,7 @@ public class Enemy : MonoBehaviour, ITakeHit
     private void Die()
     {
         _animator.SetTrigger("Die");
+        _navMeshAgent.isStopped = true;
         Destroy(gameObject, 1.2f);
     }
 }
