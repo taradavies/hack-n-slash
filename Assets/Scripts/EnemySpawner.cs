@@ -83,4 +83,21 @@ public class EnemySpawner : MonoBehaviour
         int randomIndex = UnityEngine.Random.Range(0, _enemyPrefabs.Length);
         return _enemyPrefabs[randomIndex];
     }
+
+// only compiles in the editor 
+
+#if UNITY_EDITOR
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawCube(transform.position, Vector3.one);
+
+        foreach (var spawnPoint in _spawnPoints)
+        {
+            Gizmos.DrawSphere(spawnPoint.position, 0.3f);
+        }
+    }
+
+#endif
 }
