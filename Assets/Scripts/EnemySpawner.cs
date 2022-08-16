@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Range(1, 100)]
+    [Range(1, 50)]
    [SerializeField] float _respawnRate = 10f;
    [SerializeField] float _initialSpawnDelay = 0.1f;
    [SerializeField] Enemy[] _enemyPrefabs;
@@ -13,41 +14,65 @@ public class EnemySpawner : MonoBehaviour
    [SerializeField] int _totalNumberOfEnemiesToSpawn = 5;
    [SerializeField] int _numberOfEnemiesToSpawnAtOnce = 1;
    
-   float _spawnTimer;
+   float _spawnTimer = 0f;
+   int _enemiesSpawned = 0;
+
+   void OnEnable()
+   {
+        _spawnTimer = _respawnRate - _initialSpawnDelay;
+   }
 
    void Update()
    {
-    _spawnTimer += Time.deltaTime;
-    if (ShouldSpawn())
-    {
-        SpawnEnemy();
-    }
+        _spawnTimer += Time.deltaTime;
+
+        if (ShouldSpawn())
+        {
+            SpawnEnemy();
+        }
    }
 
     bool ShouldSpawn()
     {
-        return _spawnTimer >= _respawnRate;
+        return _spawnTimer >= _respawnRate && _enemiesSpawned < _totalNumberOfEnemiesToSpawn;
     }
 
     void SpawnEnemy()
     {
         _spawnTimer = 0;
-        
-        Enemy prefab = ChooseRandomEnemyFromArray();
-        if (prefab != null)
+
+        var availableSpawnPoints = _spawnPoints.ToList();
+
+        for (int i = 0; i < _numberOfEnemiesToSpawnAtOnce; i++)
         {
-            Transform spawnPoint = ChooseRandomSpawnPointFromArray();
-            var instantiatedEnemy = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+            if (MaxEnemiesSpawned()) { break; }
+
+            Enemy prefab = ChooseRandomEnemyFromArray();
+            if (prefab != null)
+            {
+                Transform spawnPoint = ChooseRandomSpawnPointFromArray(availableSpawnPoints);
+
+                if (availableSpawnPoints.Contains(spawnPoint))
+                    availableSpawnPoints.Remove(spawnPoint);
+
+                var instantiatedEnemy = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+                _enemiesSpawned++;
+            }
         }
     }
 
-    Transform ChooseRandomSpawnPointFromArray()
+    bool MaxEnemiesSpawned()
     {
-        if (_spawnPoints.Length == 0) {return transform;}
-        else if (_spawnPoints.Length == 1) {return _spawnPoints[0];}
+        return _enemiesSpawned >= _totalNumberOfEnemiesToSpawn;
+    }
 
-        int randomIndex = UnityEngine.Random.Range(0, _spawnPoints.Length);
-        return _spawnPoints[randomIndex];
+    Transform ChooseRandomSpawnPointFromArray(List<Transform> availableSpawnPoints)
+    {
+        if (availableSpawnPoints.Count == 0) {return transform;}
+        else if (availableSpawnPoints.Count == 1) {return availableSpawnPoints[0];}
+
+        int randomIndex = UnityEngine.Random.Range(0, availableSpawnPoints.Count);
+        return availableSpawnPoints[randomIndex];
     }
 
     Enemy ChooseRandomEnemyFromArray()
