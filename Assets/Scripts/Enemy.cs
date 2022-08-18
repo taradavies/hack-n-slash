@@ -21,18 +21,29 @@ public class Enemy : MonoBehaviour, ITakeHit
 
     int _currentHealth;
 
+    void Awake()
+    {
+        _attacker = GetComponent<Attacker>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _animator = GetComponentInChildren<Animator>();
+    }
+    void OnEnable()
+    {
+        _currentHealth = _maxHealth;
+    }
+
     void Update()
     {
         if (IsDead) {return;}
 
         if (_followTarget == null)
         {
-            _followTarget = GetClosestCharacter();
             StopMovingEnemy();
+            _followTarget = GetClosestCharacter();
         }
         else
         {
-            if (Vector3.Distance(transform.position, _followTarget.transform.position) > 1.5f)
+            if (OutOfAttackRange())
             {
                 FollowTarget();
             }
@@ -41,6 +52,23 @@ public class Enemy : MonoBehaviour, ITakeHit
                 TryAttack();
             }
         }
+    }
+    void StopMovingEnemy()
+    {
+        _animator.SetFloat("Speed", 0f);
+        _navMeshAgent.isStopped = true;
+    }
+
+    Character GetClosestCharacter()
+    {
+        return Character.AllCharactersInScene
+            .OrderBy(t => Vector3.Distance(transform.position, t.transform.position))
+            .FirstOrDefault();
+    }
+
+    bool OutOfAttackRange()
+    {
+        return Vector3.Distance(transform.position, _followTarget.transform.position) > 1.5f;
     }
 
     void FollowTarget()
@@ -58,31 +86,6 @@ public class Enemy : MonoBehaviour, ITakeHit
             _animator.SetTrigger("Attack");
             _attacker.Attack(_followTarget);
         }
-    }
-
-    void StopMovingEnemy()
-    {
-        _animator.SetFloat("Speed", 0f);
-        _navMeshAgent.isStopped = true;
-    }
-
-    Character GetClosestCharacter()
-    {
-        return Character.AllCharactersInScene
-            .OrderBy(t => Vector3.Distance(transform.position, t.transform.position))
-            .FirstOrDefault();
-    }
-
-    void Awake()
-    {
-        _attacker = GetComponent<Attacker>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _animator = GetComponentInChildren<Animator>();
-    }
-    // performance benefit because we don't want to constantly pool them
-    void OnEnable()
-    {
-        _currentHealth = _maxHealth;
     }
     public void TakeHit(IAttack hitBy)
     {
