@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f80528c64b25148911971b48a524e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _respawnRate: 4
+  _respawnRate: 1
   _initialSpawnDelay: 2
   _enemyPrefabs:
   - {fileID: 8436883608303361515, guid: ba772a3ac6aaf694bae0ea10c945119f, type: 3}
@@ -667,7 +667,7 @@ MonoBehaviour:
   - {fileID: 309804052}
   - {fileID: 1639206682}
   - {fileID: 936739756}
-  _totalNumberOfEnemiesToSpawn: 1
+  _totalNumberOfEnemiesToSpawn: 3
   _numberOfEnemiesToSpawnAtOnce: 1
 --- !u!4 &409829624
 Transform:
