@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ITakeHit
 {
-    void TakeHit(Character hitBy);
+    void TakeHit(IAttack hitBy);
 } 

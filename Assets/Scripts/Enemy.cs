@@ -1,20 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Attacker))]
 public class Enemy : MonoBehaviour, ITakeHit
 {
     [SerializeField] GameObject _hitParticles;
     [SerializeField] int _maxHealth = 3;
 
     bool IsDead => _currentHealth <= 0;
-   
+
     NavMeshAgent _navMeshAgent;
     Character _followTarget;
-    int _currentHealth;
     Animator _animator;
+    Attacker _attacker;
+
+    int _currentHealth;
 
     void Update()
     {
@@ -23,22 +28,42 @@ public class Enemy : MonoBehaviour, ITakeHit
         if (_followTarget == null)
         {
             _followTarget = GetClosestCharacter();
-            _animator.SetFloat("Speed", 0f);
-            _navMeshAgent.isStopped = true;
+            StopMovingEnemy();
         }
         else
         {
-            if (Vector3.Distance(transform.position, _followTarget.transform.position) > 2) 
+            if (Vector3.Distance(transform.position, _followTarget.transform.position) > 1.5f)
             {
-                _navMeshAgent.isStopped = false;
-                _animator.SetFloat("Speed", 1f);
-                _navMeshAgent.SetDestination(_followTarget.transform.position);
+                FollowTarget();
             }
             else
             {
-                // Attack()
+                TryAttack();
             }
         }
+    }
+
+    void FollowTarget()
+    {
+        _navMeshAgent.isStopped = false;
+        _animator.SetFloat("Speed", 1f);
+        _navMeshAgent.SetDestination(_followTarget.transform.position);
+    }
+
+    void TryAttack()
+    {
+        StopMovingEnemy();
+        if (_attacker.CanAttack)
+        {
+            _animator.SetTrigger("Attack");
+            _attacker.Attack(_followTarget);
+        }
+    }
+
+    void StopMovingEnemy()
+    {
+        _animator.SetFloat("Speed", 0f);
+        _navMeshAgent.isStopped = true;
     }
 
     Character GetClosestCharacter()
@@ -50,6 +75,7 @@ public class Enemy : MonoBehaviour, ITakeHit
 
     void Awake()
     {
+        _attacker = GetComponent<Attacker>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponentInChildren<Animator>();
     }
@@ -58,7 +84,7 @@ public class Enemy : MonoBehaviour, ITakeHit
     {
         _currentHealth = _maxHealth;
     }
-    public void TakeHit(Character hitBy)
+    public void TakeHit(IAttack hitBy)
     {
         _currentHealth --;
 
@@ -70,10 +96,10 @@ public class Enemy : MonoBehaviour, ITakeHit
             Die();
         }
     }
-    private void Die()
+    void Die()
     {
+        StopMovingEnemy();
         _animator.SetTrigger("Die");
-        _navMeshAgent.isStopped = true;
         Destroy(gameObject, 1.2f);
     }
 }

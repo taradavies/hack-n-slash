@@ -3,20 +3,29 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IAttack, ITakeHit
 {
     [SerializeField] float _moveSpeed = 5f;
     [SerializeField] Vector3 _spawnPoint;
     [SerializeField] float _attackOffset = 1f;
     [SerializeField] float _attackRadius = 1f;
+    [SerializeField] int _attackDamage = 1;
+    [SerializeField] int _maxHealth = 5;
 
     public Vector3 SpawnPoint => _spawnPoint;
+
+    public int Damage => _attackDamage;
+
+    public Transform Transform => transform;
+
     public static List<Character> AllCharactersInScene = new List<Character>();
 
     Controller _characterController;
     Animator _animationController;
     Rigidbody _rb;
     Collider[] _attackResults;
+
+    int _currentHealth;
 
     public void SetController(Controller playerController)
     {
@@ -75,6 +84,7 @@ public class Character : MonoBehaviour
 
     void OnEnable()
     {
+        _currentHealth = _maxHealth;
         if (!AllCharactersInScene.Contains(this))
         {
             AllCharactersInScene.Add(this);
@@ -88,5 +98,10 @@ public class Character : MonoBehaviour
             AllCharactersInScene.Remove(this);
         }
     }
-    
+
+    public void TakeHit(IAttack hitBy)
+    {
+        _currentHealth -= hitBy.Damage;
+        Debug.Log(_currentHealth);
+    }
 }

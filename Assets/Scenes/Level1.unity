@@ -667,8 +667,8 @@ MonoBehaviour:
   - {fileID: 309804052}
   - {fileID: 1639206682}
   - {fileID: 936739756}
-  _totalNumberOfEnemiesToSpawn: 3
-  _numberOfEnemiesToSpawnAtOnce: 3
+  _totalNumberOfEnemiesToSpawn: 1
+  _numberOfEnemiesToSpawnAtOnce: 1
 --- !u!4 &409829624
 Transform:
   m_ObjectHideFlags: 0
