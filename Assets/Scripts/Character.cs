@@ -37,7 +37,8 @@ public class Character : MonoBehaviour, ITakeHit
         Vector3 moveDirection = _characterController.GetDirection();
         transform.position += (moveDirection * _moveSpeed * Time.deltaTime);
 
-        // ADD A WAY TO ROTATE THE CHARACTER
+        if (moveDirection.x != 0 || moveDirection.z != 0)
+            transform.forward = moveDirection * 360f;
 
         AnimatePlayerMovement(moveDirection);
         
@@ -49,7 +50,6 @@ public class Character : MonoBehaviour, ITakeHit
             }
         }
     }
-
     void AnimatePlayerMovement(Vector3 moveDirection)
     {
         _animationController.SetFloat("MoveX", moveDirection.x);
@@ -64,7 +64,6 @@ public class Character : MonoBehaviour, ITakeHit
             AllCharactersInScene.Add(this);
         }
     }
-
     void OnDisable()
     {
         if (AllCharactersInScene.Contains(this))
@@ -72,7 +71,6 @@ public class Character : MonoBehaviour, ITakeHit
             AllCharactersInScene.Remove(this);
         }
     }
-
     public void TakeHit(IAttack hitBy)
     {
         _currentHealth -= hitBy.Damage;
