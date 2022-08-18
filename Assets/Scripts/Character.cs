@@ -3,27 +3,20 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Character : MonoBehaviour, IAttack, ITakeHit
+[RequireComponent(typeof(Attacker))]
+public class Character : MonoBehaviour, ITakeHit
 {
     [SerializeField] float _moveSpeed = 5f;
     [SerializeField] Vector3 _spawnPoint;
-    [SerializeField] float _attackOffset = 1f;
-    [SerializeField] float _attackRadius = 1f;
-    [SerializeField] int _attackDamage = 1;
     [SerializeField] int _maxHealth = 5;
 
     public Vector3 SpawnPoint => _spawnPoint;
-
-    public int Damage => _attackDamage;
-
-    public Transform Transform => transform;
-
     public static List<Character> AllCharactersInScene = new List<Character>();
 
     Controller _characterController;
     Animator _animationController;
     Rigidbody _rb;
-    Collider[] _attackResults;
+    Attacker _attacker;
 
     int _currentHealth;
 
@@ -34,14 +27,9 @@ public class Character : MonoBehaviour, IAttack, ITakeHit
 
     void Awake() 
     {
-        var animationImpactWatcher = GetComponentInChildren<AnimationImpactWatcher>();
-        if (animationImpactWatcher != null) 
-        {
-            animationImpactWatcher.OnImpact += AnimatorImpactWatcher_OnImpact;
-        }
         _rb = GetComponent<Rigidbody>();
         _animationController = GetComponentInChildren<Animator>();
-        _attackResults = new Collider[10];
+        _attacker = GetComponent<Attacker>();
     }
 
     void Update()
@@ -55,7 +43,10 @@ public class Character : MonoBehaviour, IAttack, ITakeHit
         
         if (_characterController.attackPressed)
         {
-            _animationController.SetTrigger("Attack");
+            if (_attacker.CanAttack)
+            {
+                _animationController.SetTrigger("Attack");
+            }
         }
     }
 
@@ -65,23 +56,6 @@ public class Character : MonoBehaviour, IAttack, ITakeHit
         _animationController.SetFloat("MoveY", moveDirection.z);
     }
     
-    // called by the animatorimpactwatcher event which is activated by the script animationimpactwatcher
-    void AnimatorImpactWatcher_OnImpact()
-    {
-        Vector3 position = transform.position + transform.forward * _attackOffset;
-        // returns what is in the area defined by the sphere
-        int hitCount = Physics.OverlapSphereNonAlloc(position, _attackRadius, _attackResults);
-
-        for (int i = 0; i < hitCount; i++)
-        {
-            var takesHit = _attackResults[i].GetComponent<ITakeHit>();
-            if (takesHit != null)
-            {
-                takesHit.TakeHit(this);
-            }
-        }
-    }
-
     void OnEnable()
     {
         _currentHealth = _maxHealth;
