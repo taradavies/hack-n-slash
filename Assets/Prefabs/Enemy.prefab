@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8436883608303361517}
   - component: {fileID: 8436883608303361515}
   - component: {fileID: 502010530}
+  - component: {fileID: 2780257753647554459}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -59,6 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e41740aec2067d14797df60cb3ff37c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxNumberOfObjects: 20
+  _returnToPoolDelay: 1
   _hitParticles: {fileID: 100000, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
   _maxHealth: 3
 --- !u!195 &502010530
@@ -83,6 +86,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2780257753647554459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8436883608303361512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58d62d51269bcb4c9a0a1ed97db18da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackDamage: 1
+  _attackRefreshSpeed: 1.5
+  _attackOffset: 1
+  _attackRadius: 1
 --- !u!1001 &8436883607885237891
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -659,8 +659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f80528c64b25148911971b48a524e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _respawnRate: 1
-  _initialSpawnDelay: 2
+  _respawnRate: 3
+  _initialSpawnDelay: 3
   _enemyPrefabs:
   - {fileID: 8436883608303361515, guid: ba772a3ac6aaf694bae0ea10c945119f, type: 3}
   _spawnPoints:
@@ -697,6 +697,10 @@ PrefabInstance:
     - target: {fileID: 8436883608303361512, guid: ba772a3ac6aaf694bae0ea10c945119f, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8436883608303361515, guid: ba772a3ac6aaf694bae0ea10c945119f, type: 3}
+      propertyPath: _returnToPoolDelay
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8436883608303361516, guid: ba772a3ac6aaf694bae0ea10c945119f, type: 3}
       propertyPath: m_RootOrder

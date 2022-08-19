@@ -11,7 +11,6 @@ public class Enemy : PooledMonoBehaviour, ITakeHit
 {
     [SerializeField] GameObject _hitParticles;
     [SerializeField] int _maxHealth = 3;
-
     bool IsDead => _currentHealth <= 0;
 
     NavMeshAgent _navMeshAgent;
@@ -70,7 +69,7 @@ public class Enemy : PooledMonoBehaviour, ITakeHit
     {
         return Vector3.Distance(transform.position, _followTarget.transform.position) > 1.5f;
     }
-    
+
     void FollowTarget()
     {
         _navMeshAgent.isStopped = false;
@@ -104,6 +103,7 @@ public class Enemy : PooledMonoBehaviour, ITakeHit
         StopMovingEnemy();
         _animator.SetTrigger("Die");
 
-        Destroy(gameObject, 1.2f);
+        ReturnToPool();
     }
+
 }

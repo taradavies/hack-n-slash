@@ -1,9 +1,12 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PooledMonoBehaviour : MonoBehaviour
 {
     [SerializeField] int _maxNumberOfObjects = 20;
+    [SerializeField] float _returnToPoolDelay = 5f;
+
     public int MaxNumberOfObjects => _maxNumberOfObjects;
     public event Action<PooledMonoBehaviour> OnReturnToPool;
 
@@ -13,6 +16,18 @@ public class PooledMonoBehaviour : MonoBehaviour
         {
             OnReturnToPool(this);
         }
+    }
+
+    IEnumerator ReturnToPoolAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false);
+    }
+
+    // accessible to the subclass - enemy
+    protected void ReturnToPool()
+    {
+        StartCoroutine(ReturnToPoolAfterDelay(_returnToPoolDelay));
     }
 
     public T Get<T>(bool enable = true) where T : PooledMonoBehaviour
