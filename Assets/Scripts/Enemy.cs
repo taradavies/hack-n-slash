@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Attacker))]
-public class Enemy : MonoBehaviour, ITakeHit
+public class Enemy : PooledMonoBehaviour, ITakeHit
 {
     [SerializeField] GameObject _hitParticles;
     [SerializeField] int _maxHealth = 3;
@@ -70,7 +70,7 @@ public class Enemy : MonoBehaviour, ITakeHit
     {
         return Vector3.Distance(transform.position, _followTarget.transform.position) > 1.5f;
     }
-
+    
     void FollowTarget()
     {
         _navMeshAgent.isStopped = false;
@@ -103,6 +103,7 @@ public class Enemy : MonoBehaviour, ITakeHit
     {
         StopMovingEnemy();
         _animator.SetTrigger("Die");
+
         Destroy(gameObject, 1.2f);
     }
 }
