@@ -9,7 +9,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Attacker))]
 public class Enemy : PooledMonoBehaviour, ITakeHit
 {
-    // [SerializeField] PooledMonoBehaviour _hitParticles;
     [SerializeField] GameObject _hitParticles;
     [SerializeField] int _maxHealth = 3;
     bool IsDead => _currentHealth <= 0;
@@ -92,9 +91,7 @@ public class Enemy : PooledMonoBehaviour, ITakeHit
         _currentHealth --;
 
         _animator.SetTrigger("Hit");
-
-        // _hitParticles.Get<PooledMonoBehaviour>(transform.position + new Vector3(2, 2, -0.5f), Quaternion.identity); 
-        Instantiate(_hitParticles, transform.position, Quaternion.identity);  
+        Instantiate(_hitParticles, transform.position + new Vector3(2, 2, -0.5f), Quaternion.identity);    
 
         if (_currentHealth <= 0)
         {
