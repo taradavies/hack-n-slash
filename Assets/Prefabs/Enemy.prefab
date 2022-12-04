@@ -62,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxNumberOfObjects: 20
   _returnToPoolDelay: 1
-  _hitParticles: {fileID: 100000, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
+  _hitParticles: {fileID: 11400002, guid: bc98890f6028f444eaa7789bde5e2eeb, type: 3}
   _maxHealth: 3
 --- !u!195 &502010530
 NavMeshAgent:
