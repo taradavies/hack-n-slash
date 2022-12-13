@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] int _playerNumber;
     
+    public event Action<Character> OnCharacterChange = delegate {};
 
     public bool HasController => PlayerController != null;
     public int PlayerNumber => _playerNumber;
@@ -29,5 +31,7 @@ public class Player : MonoBehaviour
         // changed vector3 with a spawn point
         var character = Instantiate(CharacterPrefab, CharacterPrefab.SpawnPoint, Quaternion.identity);
         character.SetController(PlayerController);
+
+        OnCharacterChange(character);
     }
 }

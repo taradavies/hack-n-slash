@@ -13,6 +13,9 @@ public class Character : MonoBehaviour, ITakeHit
     public Vector3 SpawnPoint => _spawnPoint;
     public static List<Character> AllCharactersInScene = new List<Character>();
 
+    public event Action<int, int> OnHealthChange = delegate {};
+    public event Action<Character> OnDied = delegate {};
+
     Controller _characterController;
     Animator _animationController;
     Rigidbody _rb;
@@ -74,6 +77,16 @@ public class Character : MonoBehaviour, ITakeHit
     public void TakeHit(IAttack hitBy)
     {
         _currentHealth -= hitBy.Damage;
-        Debug.Log(_currentHealth);
+
+        OnHealthChange(_currentHealth, _maxHealth);
+        
+        if (_currentHealth <= 0) { 
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        OnDied?.Invoke(this);
     }
 }
