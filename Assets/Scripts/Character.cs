@@ -49,6 +49,7 @@ public class Character : MonoBehaviour, ITakeHit
         {
             if (_attacker.CanAttack)
             {
+                Debug.Log("Attack.");
                 _animationController.SetTrigger("Attack");
             }
         }

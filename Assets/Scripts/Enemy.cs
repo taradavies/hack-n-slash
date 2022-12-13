@@ -67,7 +67,9 @@ public class Enemy : PooledMonoBehaviour, ITakeHit
 
     bool OutOfAttackRange()
     {
-        return Vector3.Distance(transform.position, _followTarget.transform.position) > 1.5f;
+        Vector3 enemy2DPosition = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 target2DPosition = new Vector3(_followTarget.transform.position.x, 0, _followTarget.transform.position.z);
+        return Vector3.Distance(enemy2DPosition, target2DPosition) > 1.5f;
     }
 
     void FollowTarget()
