@@ -25,7 +25,12 @@ public class UIHealthBar : MonoBehaviour
 
     void HandleDeath(Character character)
     {
-        // Destroy(character.gameObject);
+        // deregistering for events on death because otherwise memory leak
+        _character.OnHealthChange -= HandleHealthChange;
+        _character.OnDied -= HandleDeath;
+        
+        _character = null; 
+
         gameObject.SetActive(false);
     }
 

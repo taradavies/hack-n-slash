@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] int _playerNumber;
+    [SerializeField] float _respawnTime = 5;
     
     public event Action<Character> OnCharacterChange = delegate {};
 
@@ -32,6 +34,23 @@ public class Player : MonoBehaviour
         var character = Instantiate(CharacterPrefab, CharacterPrefab.SpawnPoint, Quaternion.identity);
         character.SetController(PlayerController);
 
+        character.OnDied += HandleCharacterDeath;
+
         OnCharacterChange(character);
+    }
+
+    void HandleCharacterDeath(Character character)
+    {
+        character.OnDied -= HandleCharacterDeath;
+
+        Destroy(character.gameObject);
+
+        StartCoroutine(RespawnAfterDelay());
+    }
+
+    IEnumerator RespawnAfterDelay()
+    {
+        yield return new WaitForSeconds(_respawnTime);
+        SpawnCharacter();
     }
 }
