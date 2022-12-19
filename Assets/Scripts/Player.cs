@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] int _playerNumber;
     [SerializeField] float _respawnTime = 5;
+    [SerializeField] PooledMonoBehaviour _deathParticles; 
     
     public event Action<Character> OnCharacterChange = delegate {};
 
@@ -42,12 +43,14 @@ public class Player : MonoBehaviour
     void HandleCharacterDeath(Character character)
     {
         character.OnDied -= HandleCharacterDeath;
-
+        
+        if (_deathParticles != null)
+            _deathParticles.Get<PooledMonoBehaviour>(character.transform.position, Quaternion.identity);
+        
         Destroy(character.gameObject);
 
         StartCoroutine(RespawnAfterDelay());
     }
-
     IEnumerator RespawnAfterDelay()
     {
         yield return new WaitForSeconds(_respawnTime);

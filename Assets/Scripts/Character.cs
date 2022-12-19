@@ -77,6 +77,10 @@ public class Character : MonoBehaviour, ITakeHit
     }
     public void TakeHit(IAttack hitBy)
     {
+        // makes sure the OnDie event is not repeatedly invoked if health is below zero. 
+        if (_currentHealth <= 0)
+            return;
+
         _currentHealth -= hitBy.Damage;
 
         OnHealthChange(_currentHealth, _maxHealth);

@@ -1931,6 +1931,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerNumber: 1
+  _respawnTime: 5
+  _deathParticles: {fileID: 114566962382578006, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
 --- !u!4 &1412693990
 Transform:
   m_ObjectHideFlags: 0
@@ -2472,6 +2474,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerNumber: 2
+  _respawnTime: 5
+  _deathParticles: {fileID: 114566962382578006, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
 --- !u!1 &1369011301922563655
 GameObject:
   m_ObjectHideFlags: 0
