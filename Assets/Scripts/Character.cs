@@ -4,17 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Attacker))]
-public class Character : MonoBehaviour, ITakeHit
+public class Character : MonoBehaviour, ITakeHit, IDie
 {
     [SerializeField] float _moveSpeed = 5f;
     [SerializeField] Vector3 _spawnPoint;
-    [SerializeField] int _maxHealth = 5;
+    [SerializeField] int _maxHealth = 10;
 
     public Vector3 SpawnPoint => _spawnPoint;
     public static List<Character> AllCharactersInScene = new List<Character>();
-
-    public event Action<int, int> OnHealthChange = delegate {};
-    public event Action<Character> OnDied = delegate {};
+    public event Action<IDie> OnDie = delegate {};
+    public event Action<int, int> OnHealthChange;
 
     Controller _characterController;
     Animator _animationController;
@@ -92,6 +91,6 @@ public class Character : MonoBehaviour, ITakeHit
 
     void Die()
     {
-        OnDied?.Invoke(this);
+        OnDie?.Invoke(this);
     }
 }

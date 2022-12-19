@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1248525427614483333}
   - component: {fileID: 4558528158495893522}
+  - component: {fileID: 3705221511922194987}
+  - component: {fileID: 4696849406599124180}
   m_Layer: 0
   m_Name: Viking
   m_TagString: Untagged
@@ -46,8 +48,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 7
   _spawnPoint: {x: 5, y: 0, z: 3}
+  _maxHealth: 10
+--- !u!114 &3705221511922194987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194244420591847341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58d62d51269bcb4c9a0a1ed97db18da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attackDamage: 1
+  _attackRefreshSpeed: 1.5
   _attackOffset: 1
   _attackRadius: 1
+--- !u!114 &4696849406599124180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194244420591847341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62147477e72196a49aef13ccf16f1bd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deathParticles: {fileID: 114566962382578006, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+  _spawnOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &8631083693889073222
 PrefabInstance:
   m_ObjectHideFlags: 0

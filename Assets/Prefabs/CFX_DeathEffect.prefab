@@ -19074,7 +19074,7 @@ GameObject:
   - component: {fileID: 199200332811060622}
   - component: {fileID: 114566962382578006}
   m_Layer: 0
-  m_Name: CFX_Death
+  m_Name: CFX_DeathEffect
   m_TagString: FxTemporaire
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23783,6 +23783,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxNumberOfObjects: 20
+  _maxNumberOfObjects: 10
   _returnToPoolDelay: 5
   OnlyDeactivate: 1

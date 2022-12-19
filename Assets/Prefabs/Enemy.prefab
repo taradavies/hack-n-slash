@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8436883608303361515}
   - component: {fileID: 502010530}
   - component: {fileID: 2780257753647554459}
+  - component: {fileID: 8087979104498110108}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -47,7 +48,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.1
-  m_Center: {x: 2, y: 1, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8436883608303361515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,6 +103,20 @@ MonoBehaviour:
   _attackRefreshSpeed: 1.5
   _attackOffset: 1
   _attackRadius: 1
+--- !u!114 &8087979104498110108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8436883608303361512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62147477e72196a49aef13ccf16f1bd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deathParticles: {fileID: 114566962382578006, guid: 46876a2780737ec45a19d62f88e5ce56, type: 3}
+  _spawnOffset: {x: 0.7, y: 0, z: 0}
 --- !u!1001 &8436883607885237891
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,7 +134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5304911586177118974, guid: 176299a76ecfc7544b22a66fae200ac7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5304911586177118974, guid: 176299a76ecfc7544b22a66fae200ac7, type: 3}
       propertyPath: m_LocalPosition.y

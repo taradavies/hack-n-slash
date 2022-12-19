@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Attacker))]
-public class Enemy : PooledMonoBehaviour, ITakeHit
+public class Enemy : PooledMonoBehaviour, ITakeHit, IDie
 {
     [SerializeField] PooledMonoBehaviour _hitParticles;
     [SerializeField] int _maxHealth = 3;
@@ -19,6 +19,9 @@ public class Enemy : PooledMonoBehaviour, ITakeHit
     Attacker _attacker;
 
     int _currentHealth;
+
+    public event Action<IDie> OnDie;
+    public event Action<int, int> OnHealthChange;
 
     void Awake()
     {
@@ -90,22 +93,35 @@ public class Enemy : PooledMonoBehaviour, ITakeHit
     }
     public void TakeHit(IAttack hitBy)
     {
-        _currentHealth --;
+        RemoveHealth();
 
         _animator.SetTrigger("Hit");
 
-        _hitParticles.Get<PooledMonoBehaviour>(transform.position + new Vector3(0, 2, 0), Quaternion.identity);   
+        PlayHitParticles();
 
         if (_currentHealth <= 0)
         {
             Die();
         }
     }
+
+    void PlayHitParticles()
+    {
+        _hitParticles.Get<PooledMonoBehaviour>(transform.position + new Vector3(0, 2, 0), Quaternion.identity);
+    }
+
+    void RemoveHealth()
+    {
+        _currentHealth--;
+        OnHealthChange?.Invoke(_currentHealth, _maxHealth);
+    }
+
     void Die()
     {
-        StopMovingEnemy();
-        _animator.SetTrigger("Die");
+        OnDie?.Invoke(this);
 
+        StopMovingEnemy();
+        _animator.SetTrigger("Die");        
         ReturnToPool();
     }
 

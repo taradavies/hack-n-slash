@@ -15,20 +15,20 @@ public class UIHealthBar : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void Player_OnCharacterChange(Character character)
+    void Player_OnCharacterChange(IDie character)
     {
-        _character = character;
+        _character = character.gameObject.GetComponent<Character>();
         _character.OnHealthChange += HandleHealthChange;
-        _character.OnDied += HandleDeath;
+        _character.OnDie += HandleDeath;
         gameObject.SetActive(true);
     }
 
-    void HandleDeath(Character character)
+    void HandleDeath(IDie character)
     {
         // deregistering for events on death because otherwise memory leak
-        _character.OnHealthChange -= HandleHealthChange;
-        _character.OnDied -= HandleDeath;
-        
+        character.OnHealthChange -= HandleHealthChange;
+        character.OnDie -= HandleDeath;
+
         _character = null; 
 
         gameObject.SetActive(false);
