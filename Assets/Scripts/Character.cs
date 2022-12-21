@@ -4,11 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Attacker))]
+[RequireComponent(typeof(Rigidbody))]
+
 public class Character : MonoBehaviour, ITakeHit, IDie
 {
     [SerializeField] float _moveSpeed = 5f;
     [SerializeField] Vector3 _spawnPoint;
     [SerializeField] int _maxHealth = 10;
+    [Tooltip("Value for controllers ie. if the joystick is not perfectly centered but nothings been moved, this is a value to factor in error.")]
+    [SerializeField] float _controllerResistanceConstant = 0.25f;
+
 
     public Vector3 SpawnPoint => _spawnPoint;
     public static List<Character> AllCharactersInScene = new List<Character>();
@@ -37,22 +42,35 @@ public class Character : MonoBehaviour, ITakeHit, IDie
     void Update()
     {
         Vector3 moveDirection = _characterController.GetDirection();
-        transform.position += (moveDirection * _moveSpeed * Time.deltaTime);
 
-        if (moveDirection.x != 0 || moveDirection.z != 0)
-            transform.forward = moveDirection * 360f;
+        if (moveDirection.magnitude > _controllerResistanceConstant)
+        {
+            var velocity = moveDirection * _moveSpeed;
+            _rb.velocity = velocity;
+            transform.forward = 360 * moveDirection;
 
-        AnimatePlayerMovement(moveDirection);
-        
+            _animationController.SetFloat("Speed", moveDirection.magnitude);
+        }
+        else
+        {
+            _animationController.SetFloat("Speed", 0);
+        }
+
         if (_characterController.attackPressed)
         {
             if (_attacker.CanAttack)
             {
-                Debug.Log("Attack.");
                 _animationController.SetTrigger("Attack");
             }
         }
     }
+
+    void RotateCharacter(Vector3 moveDirection)
+    {
+        if (moveDirection.x != 0 || moveDirection.z != 0)
+            transform.forward = moveDirection * 360f;
+    }
+
     void AnimatePlayerMovement(Vector3 moveDirection)
     {
         _animationController.SetFloat("MoveX", moveDirection.x);
