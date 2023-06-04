@@ -52,6 +52,7 @@ MonoBehaviour:
   _spawnPoint: {x: 5, y: 0, z: 3}
   _maxHealth: 10
   _controllerResistanceConstant: 0
+  _rotationSpeed: 100
 --- !u!114 &3705221511922194987
 MonoBehaviour:
   m_ObjectHideFlags: 0

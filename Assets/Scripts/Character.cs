@@ -13,7 +13,7 @@ public class Character : MonoBehaviour, ITakeHit, IDie
     [SerializeField] int _maxHealth = 10;
     [Tooltip("Value for controllers ie. if the joystick is not perfectly centered but nothings been moved, this is a value to factor in error.")]
     [SerializeField] float _controllerResistanceConstant = 0.25f;
-
+    [SerializeField] float _rotationSpeed = 720;
 
     public Vector3 SpawnPoint => _spawnPoint;
     public static List<Character> AllCharactersInScene = new List<Character>();
@@ -47,9 +47,9 @@ public class Character : MonoBehaviour, ITakeHit, IDie
         {
             var velocity = moveDirection * _moveSpeed;
             _rb.velocity = velocity;
-            transform.forward = 360 * moveDirection;
+            // RotateCharacter(moveDirection);
 
-            _animationController.SetFloat("Speed", moveDirection.magnitude);
+            _animationController.SetFloat("Speed", Mathf.Clamp(moveDirection.magnitude, 0, 1));
         }
         else
         {
@@ -67,14 +67,12 @@ public class Character : MonoBehaviour, ITakeHit, IDie
 
     void RotateCharacter(Vector3 moveDirection)
     {
-        if (moveDirection.x != 0 || moveDirection.z != 0)
-            transform.forward = moveDirection * 360f;
-    }
-
-    void AnimatePlayerMovement(Vector3 moveDirection)
-    {
-        _animationController.SetFloat("MoveX", moveDirection.x);
-        _animationController.SetFloat("MoveY", moveDirection.z);
+        if (moveDirection != Vector3.zero)
+        {
+            Quaternion toRotate = Quaternion.LookRotation(moveDirection, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotate, _rotationSpeed * Time.deltaTime);
+        }
+            
     }
     
     void OnEnable()
